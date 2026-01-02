@@ -43,6 +43,18 @@
         "#\\s*renovate:\\s*datasource=git-refs-master\\s+packageName=(?<packageName>\\S+)\\s*[\\r\\n]+[^:]+:\\s*(?<currentDigest>\\S+)",
         "-- renovate: datasource=git-refs-master packageName=(?<packageName>[^\\s]+)\\s*?commit = \"?(?<currentDigest>[^\",]+)\"?"
       ]
+    },
+    {
+      "description": [
+        "Update npm packages in GitHub Action workflow env vars using '# renovate: datasource=npm depName=X'.",
+        "Useful for semantic-release which recommends CI-only installation."
+      ],
+      "customType": "regex",
+      "datasourceTemplate": "npm",
+      "managerFilePatterns": [".github/workflows/*.yml"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=npm\\s+depName=(?<depName>\\S+)\\s*[\\r\\n]+\\s*[A-Z_]+:\\s*(?<currentValue>\\S+)"
+      ]
     }
   ]
 }
