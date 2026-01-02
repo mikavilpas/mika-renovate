@@ -11,7 +11,14 @@ function testPattern(pattern: string, input: string): RegExpExecArray | null {
 }
 
 function findManager(descriptionIncludes: string): CustomManager {
-  const manager = config.customManagers.find(m => m.description.includes(descriptionIncludes))
+  const manager = config.customManagers.find(m => {
+    let description = m.description
+    if (Array.isArray(description)) {
+      // support multiline descriptions
+      description = description.join(" ")
+    }
+    return description.includes(descriptionIncludes)
+  })
   if (!manager) {
     throw new Error(`Manager not found: ${descriptionIncludes}`)
   }
@@ -154,5 +161,41 @@ describe("git-refs-master (master branch) custom manager", () => {
       expect(match?.groups?.["packageName"]).toBe("https://github.com/old/plugin")
       expect(match?.groups?.["currentDigest"]).toBe("xyz789")
     })
+  })
+})
+
+describe("npm packages in workflow env vars custom manager", () => {
+  const manager = findManager("npm packages in GitHub Action")
+  const pattern = getPattern(manager, 0)
+
+  it("matches semantic-release version in env var", () => {
+    const input = `      env:
+        GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: \${{ secrets.NPM_TOKEN }}
+        # renovate: datasource=npm depName=semantic-release
+        SEMANTIC_RELEASE_VERSION: 25.0.2`
+
+    const match = testPattern(pattern, input)
+    expect(match).not.toBeNull()
+    expect(match?.groups?.["depName"]).toBe("semantic-release")
+    expect(match?.groups?.["currentValue"]).toBe("25.0.2")
+  })
+
+  it("matches any npm package in env var", () => {
+    const input = `      # renovate: datasource=npm depName=@semantic-release/changelog
+        CHANGELOG_VERSION: 6.0.3`
+
+    const match = testPattern(pattern, input)
+    expect(match).not.toBeNull()
+    expect(match?.groups?.["depName"]).toBe("@semantic-release/changelog")
+    expect(match?.groups?.["currentValue"]).toBe("6.0.3")
+  })
+
+  it("does not match without renovate comment", () => {
+    const input = `      env:
+        SOME_VERSION: 1.2.3`
+
+    const match = testPattern(pattern, input)
+    expect(match).toBeNull()
   })
 })
