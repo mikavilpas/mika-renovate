@@ -45,9 +45,9 @@ describe("github-releases custom manager", () => {
           version: 0.29.0`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["depName"]).toBe("Kampfkarren/selene")
-      expect(match?.groups?.["currentValue"]).toBe("0.29.0")
+      assert(match)
+      expect(match.groups?.["depName"]).toBe("Kampfkarren/selene")
+      expect(match.groups?.["currentValue"]).toBe("0.29.0")
     })
 
     it("does not match unrelated content", () => {
@@ -70,9 +70,9 @@ jobs:
   version = "11.14.1"`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["depName"]).toBe("folke/lazy.nvim")
-      expect(match?.groups?.["currentValue"]).toBe("11.14.1")
+      assert(match)
+      expect(match.groups?.["depName"]).toBe("folke/lazy.nvim")
+      expect(match.groups?.["currentValue"]).toBe("11.14.1")
     })
 
     it("matches without quotes around version", () => {
@@ -80,9 +80,9 @@ jobs:
   version = v0.10.0`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["depName"]).toBe("neovim/neovim")
-      expect(match?.groups?.["currentValue"]).toBe("v0.10.0")
+      assert(match)
+      expect(match.groups?.["depName"]).toBe("neovim/neovim")
+      expect(match.groups?.["currentValue"]).toBe("v0.10.0")
     })
   })
 })
@@ -98,9 +98,9 @@ describe("git-refs (main branch) custom manager", () => {
       commit: abc123def456`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["packageName"]).toBe("https://github.com/folke/lazy.nvim")
-      expect(match?.groups?.["currentDigest"]).toBe("abc123def456")
+      assert(match)
+      expect(match.groups?.["packageName"]).toBe("https://github.com/folke/lazy.nvim")
+      expect(match.groups?.["currentDigest"]).toBe("abc123def456")
     })
   })
 
@@ -112,9 +112,9 @@ describe("git-refs (main branch) custom manager", () => {
   commit = "abc123def456"`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["packageName"]).toBe("https://github.com/MagicDuck/grug-far.nvim")
-      expect(match?.groups?.["currentDigest"]).toBe("abc123def456")
+      assert(match)
+      expect(match.groups?.["packageName"]).toBe("https://github.com/MagicDuck/grug-far.nvim")
+      expect(match.groups?.["currentDigest"]).toBe("abc123def456")
     })
 
     it("matches without quotes around commit", () => {
@@ -122,9 +122,9 @@ describe("git-refs (main branch) custom manager", () => {
   commit = abc123`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["packageName"]).toBe("https://github.com/some/repo")
-      expect(match?.groups?.["currentDigest"]).toBe("abc123")
+      assert(match)
+      expect(match.groups?.["packageName"]).toBe("https://github.com/some/repo")
+      expect(match.groups?.["currentDigest"]).toBe("abc123")
     })
   })
 })
@@ -140,9 +140,9 @@ describe("git-refs-master (master branch) custom manager", () => {
       commit: def789`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["packageName"]).toBe("https://github.com/some/legacy-repo")
-      expect(match?.groups?.["currentDigest"]).toBe("def789")
+      assert(match)
+      expect(match.groups?.["packageName"]).toBe("https://github.com/some/legacy-repo")
+      expect(match.groups?.["currentDigest"]).toBe("def789")
     })
   })
 
@@ -154,9 +154,9 @@ describe("git-refs-master (master branch) custom manager", () => {
   commit = "xyz789"`
 
       const match = testPattern(pattern, input)
-      expect(match).not.toBeNull()
-      expect(match?.groups?.["packageName"]).toBe("https://github.com/old/plugin")
-      expect(match?.groups?.["currentDigest"]).toBe("xyz789")
+      assert(match)
+      expect(match.groups?.["packageName"]).toBe("https://github.com/old/plugin")
+      expect(match.groups?.["currentDigest"]).toBe("xyz789")
     })
   })
 })
@@ -173,9 +173,9 @@ describe("npm packages in workflow env vars custom manager", () => {
         SEMANTIC_RELEASE_VERSION: 25.0.2`
 
     const match = testPattern(pattern, input)
-    expect(match).not.toBeNull()
-    expect(match?.groups?.["depName"]).toBe("semantic-release")
-    expect(match?.groups?.["currentValue"]).toBe("25.0.2")
+    assert(match)
+    expect(match.groups?.["depName"]).toBe("semantic-release")
+    expect(match.groups?.["currentValue"]).toBe("25.0.2")
   })
 
   it("matches any npm package in env var", () => {
@@ -183,9 +183,9 @@ describe("npm packages in workflow env vars custom manager", () => {
         CHANGELOG_VERSION: 6.0.3`
 
     const match = testPattern(pattern, input)
-    expect(match).not.toBeNull()
-    expect(match?.groups?.["depName"]).toBe("@semantic-release/changelog")
-    expect(match?.groups?.["currentValue"]).toBe("6.0.3")
+    assert(match)
+    expect(match.groups?.["depName"]).toBe("@semantic-release/changelog")
+    expect(match.groups?.["currentValue"]).toBe("6.0.3")
   })
 
   it("does not match without renovate comment", () => {
