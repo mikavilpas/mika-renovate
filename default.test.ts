@@ -1,3 +1,4 @@
+import assert from "assert"
 import RE2 from "re2"
 import { describe, expect, it } from "vitest"
 import config from "./default.json" with { type: "json" }
@@ -12,24 +13,20 @@ function testPattern(pattern: string, input: string): RegExpExecArray | null {
 
 function findManager(descriptionIncludes: string): CustomManager {
   const manager = config.customManagers.find(m => {
-    let description = m.description
-    if (Array.isArray(description)) {
-      // support multiline descriptions
-      description = description.join(" ")
-    }
+    // keep all descriptions as string arrays for easier testing
+    assert(Array.isArray(m.description))
+    const description = m.description.join(" ")
+
     return description.includes(descriptionIncludes)
   })
-  if (!manager) {
-    throw new Error(`Manager not found: ${descriptionIncludes}`)
-  }
+  assert(manager, `Custom manager not found: ${descriptionIncludes}`)
   return manager
 }
 
 function getPattern(manager: CustomManager, index: number): string {
   const pattern = manager.matchStrings[index]
-  if (!pattern) {
-    throw new Error(`Pattern not found at index ${index}`)
-  }
+  assert(pattern, `Pattern at index ${index} not found for manager ${manager.description.join(" ")}`)
+
   return pattern
 }
 

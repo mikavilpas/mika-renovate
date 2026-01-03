@@ -5,7 +5,7 @@
   "commitBodyTable": true,
   "packageRules": [
     {
-      "description": "Automerge digest updates directly to main without opening a PR",
+      "description": ["Automerge digest updates directly to main without opening a PR"],
       "matchUpdateTypes": ["digest"],
       "automerge": true,
       "automergeType": "branch"
@@ -13,7 +13,9 @@
   ],
   "customManagers": [
     {
-      "description": "Update github-releases in yml/lua files using '# renovate: datasource=github-releases depName=X' or '-- renovate: datasource=github-releases depName=X'",
+      "description": [
+        "Update github-releases in yml/lua files using '# renovate: datasource=github-releases depName=X' or '-- renovate: datasource=github-releases depName=X'"
+      ],
       "customType": "regex",
       "datasourceTemplate": "github-releases",
       "managerFilePatterns": ["**/*.yml", "**/*.lua"],
@@ -23,7 +25,9 @@
       ]
     },
     {
-      "description": "Track git-refs on main branch in yml/lua files using '# renovate: datasource=git-refs packageName=X' or '-- renovate: datasource=git-refs packageName=X'",
+      "description": [
+        "Track git-refs on main branch in yml/lua files using '# renovate: datasource=git-refs packageName=X' or '-- renovate: datasource=git-refs packageName=X'"
+      ],
       "customType": "regex",
       "datasourceTemplate": "git-refs",
       "currentValueTemplate": "main",
@@ -34,7 +38,9 @@
       ]
     },
     {
-      "description": "Track git-refs on master branch in yml/lua files using '# renovate: datasource=git-refs-master packageName=X' or '-- renovate: datasource=git-refs-master packageName=X'",
+      "description": [
+        "Track git-refs on master branch in yml/lua files using '# renovate: datasource=git-refs-master packageName=X' or '-- renovate: datasource=git-refs-master packageName=X'"
+      ],
       "customType": "regex",
       "datasourceTemplate": "git-refs",
       "currentValueTemplate": "master",
