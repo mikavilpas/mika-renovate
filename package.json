@@ -7,7 +7,7 @@
     "build": "tsc --noEmit",
     "lint": "pnpx oxlint --type-aware --deny-warnings && eslint --max-warnings=0 .",
     "prettier": "prettier --check .",
-    "test": "vitest run"
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/node": "25.0.3",
