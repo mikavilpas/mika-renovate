@@ -31,7 +31,8 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "re2",
-      "esbuild"
+      "esbuild",
+      "unrs-resolver"
     ]
   }
 }
